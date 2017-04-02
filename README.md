@@ -7,7 +7,7 @@ Just drop the package into your package directory, and you're done.
 
 ### Usage
 - Press O to toggle the freecam.
-- Use WASD to move, arrow keys to look around, shift to go up, and ctrl to go down.
+- Use WASD to move, arrow keys to look around, shift to go down, and space to go up.
 
 ### Additional Notes
 

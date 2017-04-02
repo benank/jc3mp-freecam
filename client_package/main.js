@@ -1,6 +1,5 @@
 const ui = new WebUIWindow('freecam', 'package://freecam/ui/index.html', new Vector2(jcmp.viewportSize.x, jcmp.viewportSize.y));
 
-
 let can_use = true;
 let freecam = false;
 let to_pos = new Vector3f(0,0,0);
@@ -8,7 +7,6 @@ let to_rot = new Vector3f(0,0,0);
 let keys = [];
 const speed = 1;
 const rot_speed = Math.PI * 0.01;
-let no_lerp = false;
 
 jcmp.ui.AddEvent('KeyUp', key => {
     let myKey = "O".charCodeAt(0);
@@ -30,10 +28,6 @@ jcmp.ui.AddEvent('KeyDown', key => {
     {
         keys.push(key);
     }
-    /*if (freecam)
-    {
-        ProcessKey(key);
-    }*/
 })
 
 jcmp.ui.AddEvent('KeyUp', key => {
@@ -68,12 +62,12 @@ function ProcessKey(key)
             to_pos = to_pos.add(vq(new Vector3f(speed,0,0), jcmp.localPlayer.camera.rotation));
             break;
         }
-        case 16: // Shift, Up
+        case 32: // Space, Up
         {
             to_pos = to_pos.add(new Vector3f(0,speed,0));
             break;
         }
-        case 17: // Ctrl, Down
+        case 16: // Shift, Down
         {
             to_pos = to_pos.add(new Vector3f(0,-speed,0));
             break;
@@ -83,29 +77,21 @@ function ProcessKey(key)
         case 38: // Up Arrow, Look Up
         {
             to_rot = to_rot.add(new Vector3f(-rot_speed,0,0));
-            to_rot.x = (to_rot.x <= -Math.PI / 2) ? -Math.PI / 2 : to_rot.x;
-            if (to_rot.x == -Math.PI / 2) {no_lerp = true;}
             break;
         }
         case 37: // Left Arrow, Look Left
         {
             to_rot = to_rot.add(new Vector3f(0,-rot_speed,0));
-            to_rot.y = (to_rot.y <= -Math.PI) ? Math.PI : to_rot.y;
-            if (to_rot.y == -Math.PI) {no_lerp = true;}
             break;
         }
         case 40: // Down Arrow, Look Down
         {
             to_rot = to_rot.add(new Vector3f(rot_speed,0,0));
-            to_rot.x = (to_rot.x >= Math.PI / 2) ? Math.PI / 2 : to_rot.x;
-            if (to_rot.x == Math.PI / 2) {no_lerp = true;}
             break;
         }
         case 39: // Right Arrow, Look Right
         {
             to_rot = to_rot.add(new Vector3f(0,rot_speed,0));
-            to_rot.y = (to_rot.y >= Math.PI) ? -Math.PI : to_rot.y;
-            if (to_rot.y == Math.PI) {no_lerp = true;}
             break;
         }
     }
@@ -119,15 +105,8 @@ jcmp.events.Add('GameUpdateRender', (r) => {
         {
             ProcessKey(k);
         });
-        jcmp.localPlayer.camera.position = lerp(jcmp.localPlayer.camera.position, to_pos, 0.1);
-        if (no_lerp)
-        {
-            jcmp.localPlayer.camera.rotation = to_rot;
-        }
-        else
-        {
-            jcmp.localPlayer.camera.rotation = lerp(jcmp.localPlayer.camera.rotation, to_rot, 0.25);
-        }
+        jcmp.localPlayer.camera.position = lerp(jcmp.localPlayer.camera.position, to_pos, 0.5);
+        jcmp.localPlayer.camera.rotation = to_rot
         
     }
 })
