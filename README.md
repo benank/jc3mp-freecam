@@ -12,3 +12,5 @@ Just drop the package into your package directory, and you're done.
 ### Additional Notes
 
 - Requires [KeyPress](https://github.com/noobasaurus/jc3mp-keypress).
+
+## Want more features and no KeyPress requirement? Check out [JC3MP-Camera-Tools](https://github.com/noobasaurus/jc3mp-camera-tools)!
